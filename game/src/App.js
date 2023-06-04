@@ -11,7 +11,7 @@ function App() {
           <p>was geht</p>
         </div>
         <footer>
-          <p>tschö mit ö</p>
+          <p>tschö mit nix du nudel</p>
         </footer>
       </body>
     </div>
