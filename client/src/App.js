@@ -9,7 +9,8 @@ function App() {
   //Random question
   const [randomQuestion, setRandomQuestion] = useState(null);
   //Answers
-
+  const [data, setData] = useState(null);
+  
   //------------------------------FUNCTIONS-----------------------------------------------//
   //Random question
   function getRandomQuestion() {
@@ -19,7 +20,10 @@ function App() {
   }
 
   //Answer Select
-
+  function handleButtonClick(answer) {
+    console.log(answer); // Example: Log the clicked item to the console
+    // Add your desired logic here
+  }
   //---------------------------------USE-EFFECT--------------------------------------------//
 
   //normal backend
@@ -64,11 +68,20 @@ function App() {
 
         <h3>Your answers:</h3>
 
+
+        {answerData.map((answer) => (
+      <button key={answer.id} onClick={() => handleButtonClick(answer)}>
+        {answer.text}
+      </button>
+    ))}
         {/* <div>
+          <ul>
           {answerData.map((item) => (
             <button key={item.id}>{item.text}</button>
           ))}
-        </div> */}
+          </ul>
+        </div>
+         */}
       </div>
     </div>
   );
