@@ -1,4 +1,4 @@
-// Assuming this code is part of your frontend JavaScript file
+// frontend.js
 
 const fetchServerData = async () => {
   try {
