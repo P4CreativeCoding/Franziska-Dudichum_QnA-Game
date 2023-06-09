@@ -6,7 +6,7 @@ const fs = require("fs");
 const path = require("path");
 
 app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, "../client/public/index.html");
+  const filePath = path.join(__dirname, "../client/index.js");
   fs.readFile(filePath, "utf-8", (err, htmlContent) => {
     if (err) {
       console.error("Error reading HTML file:", err);
