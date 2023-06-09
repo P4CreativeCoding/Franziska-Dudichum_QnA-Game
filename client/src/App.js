@@ -36,6 +36,7 @@ function App() {
             onKeyPress={handleKeyPress}
           />
           <button onClick={handleLogin}>Login</button>
+          <p>Pssst... the password is 12...</p>
         </div>
       ) : (
         <div className="Game">{<Display />}</div>
