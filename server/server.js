@@ -5,7 +5,6 @@ const port = process.env.PORT || 3001;
 const fs = require("fs");
 const path = require("path");
 
-app.use(bodyParser.json());
 app.get("/", (req, res) => {
   const filePath = path.join(__dirname, "../client/public/index.html");
   fs.readFile(filePath, "utf-8", (err, htmlContent) => {
