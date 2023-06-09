@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Display from "./components/display/display.jsx";
+import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,15 +18,22 @@ function App() {
     setPassword(event.target.value);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <div>
       {!isLoggedIn ? (
-        <div>
+        <div className="LoginScreen">
           <h2>Login</h2>
           <input
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            onKeyPress={handleKeyPress}
           />
           <button onClick={handleLogin}>Login</button>
         </div>
