@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./display.css";
 import questionData from "../data/questions.json";
 import answerData from "../data/answers.json";
 

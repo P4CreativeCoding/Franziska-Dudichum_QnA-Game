@@ -38,7 +38,7 @@ function App() {
           <button onClick={handleLogin}>Login</button>
         </div>
       ) : (
-        <div>{<Display />}</div>
+        <div className="Game">{<Display />}</div>
       )}
     </div>
   );
