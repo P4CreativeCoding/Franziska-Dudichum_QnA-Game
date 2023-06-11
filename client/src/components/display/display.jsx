@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./display.css";
 import questionData from "../data/questions.json";
 import answerData from "../data/answers.json";
+import axios from "axios";
 
 function Display() {
   const [backendData, setBackendData] = useState([{}]);
@@ -17,6 +18,15 @@ function Display() {
   function handleButtonClick(answer) {
     console.log(answer);
     // Add your desired logic here
+    // http request to server (aijax adress axios)
+    axios
+      .get("../data/answers.json")
+      .then((answers) => {
+        console.log(answers.answers);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   useEffect(() => {
