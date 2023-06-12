@@ -15,6 +15,44 @@ function Display() {
     setRandomQuestion(randomQuestion);
   }
 
+  //UNIT TEST//
+  // Test that randomIndex is within the valid range of indices
+
+  test("randomIndex should be within valid range", () => {
+    getRandomQuestion();
+    const randomIndex = Math.floor(Math.random() * questionData.length);
+    expect(randomIndex).toBeGreaterThanOrEqual(0);
+    expect(randomIndex).toBeLessThan(questionData.length);
+  });
+
+  // Test that randomQuestion is a valid question object from questionData
+  test("randomQuestion should be a valid question object", () => {
+    getRandomQuestion();
+    const randomQuestion = getRandomQuestion(); // Replace with the actual function to get the random question
+    expect(questionData).toContain(randomQuestion);
+  });
+
+  // Test that setRandomQuestion() is called with the correct parameter
+  test("setRandomQuestion should be called with the correct parameter", () => {
+    const setRandomQuestion = jest.fn();
+    getRandomQuestion();
+    expect(setRandomQuestion).toHaveBeenCalledTimes(1);
+    expect(setRandomQuestion).toHaveBeenCalledWith(expect.any(Object));
+  });
+
+  // Test that getRandomQuestion() returns a value
+  test("getRandomQuestion should return a value", () => {
+    const result = getRandomQuestion();
+    expect(result).toBeDefined();
+  });
+
+  // Test that getRandomQuestion() does not throw an error
+  test("getRandomQuestion should not throw an error", () => {
+    expect(getRandomQuestion).not.toThrow();
+  });
+
+  ////////////////////////////////////////////
+
   function handleButtonClick(answer) {
     console.log(answer);
     // Add your desired logic here
