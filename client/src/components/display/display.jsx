@@ -78,40 +78,73 @@ function Display() {
   useEffect(() => {
     getRandomQuestion();
   }, []);
-
-  return (
-    <div>
-      <header>
-        <h2>Q & A Game</h2>
-        <h4>Wassup and welcome to my qna game</h4>
-        <p>
-          you will get a random question, where you can choose between 4
-          different answers, which are chosen randomly
-        </p>
-      </header>
-      <div className="qna-section">
-        <h3>Your question:</h3>
-        <div>
-          {randomQuestion ? (
+    // Randomly shuffle the data array
+    const shuffledData = [...answerData].sort(() => Math.random() - 0.5);
+    const filteredData = shuffledData.slice(0, 4);
+    
+    const [selectedButtonId, setSelectedButtonId] = useState(null);
+    const [isAnswerSelected, setIsAnswerSelected] = useState(false);
+    
+    const handleClick = (answerId) => {
+      setSelectedButtonId(answerId);
+      setIsAnswerSelected(true);
+      // Perform additional logic or actions here
+    };
+    
+    const selectedAnswer = answerData.find((answer) => answer.id === selectedButtonId);
+    
+    return (
+      <div>
+        <header>
+          <h2>Q & A Game</h2>
+          <h4>Wassup and welcome to my Q&A game</h4>
+          <p>
+            You will get a random question, where you can choose between 4
+            different answers, which are chosen randomly.
+          </p>
+        </header>
+        <div className="qna-section">
+          <h3>Your question:</h3>
+          <div>
+            {randomQuestion ? (
+              <div>
+                {/* <p>Question ID: {randomQuestion.id}</p> */}
+                <p>Question: {randomQuestion.text}</p>
+              </div>
+            ) : (
+              <p>Loading...</p>
+            )}
+          </div>
+    
+          <h3>Your answers:</h3>
+    
+          {!isAnswerSelected &&
+            filteredData.map((answer) => (
+              <button
+                key={answer.id}
+                className={selectedButtonId === answer.id ? 'clicked' : 'hidden'}
+                type="button"
+                onClick={() => handleClick(answer.id)}
+              >
+                {answer.text}
+              </button>
+            ))}
+    
+          {isAnswerSelected && selectedAnswer && (
             <div>
-              {/* <p>Question ID: {randomQuestion.id}</p> */}
-              <p>Question: {randomQuestion.text}</p>
+              <h2>Selected Answer:</h2>
+              <p>{selectedAnswer.text}</p>
             </div>
-          ) : (
-            <p>Loading...</p>
           )}
         </div>
-
-        <h3>Your answers:</h3>
-
-        {answerData.map((answer) => (
-          <button key={answer.id} onClick={() => handleButtonClick(answer)}>
-            {answer.text}
-          </button>
-        ))}
       </div>
-    </div>
-  );
-}
+    );
+    
+    
+    
+    
+    
+    
+  }    
 
 export default Display;

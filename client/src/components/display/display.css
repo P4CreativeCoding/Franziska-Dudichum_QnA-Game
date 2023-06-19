@@ -7,3 +7,10 @@ header {
   text-align: center;
   margin: 100px;
 }
+
+.clicked {
+  background-color: #ff0000;
+  color: #ffffff;
+  transform: scale(1.2);
+  /* Add any other styles for the clicked state */
+}
