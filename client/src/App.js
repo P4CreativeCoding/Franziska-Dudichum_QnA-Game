@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div>
-      {/* {!isLoggedIn ? (
+      {!isLoggedIn ? (
         <div className="LoginScreen">
           <h2>Login</h2>
           <input
@@ -38,9 +38,9 @@ function App() {
           <button onClick={handleLogin}>Login</button>
           <p>Pssst... the password is 12...</p>
         </div>
-      ) : ( */}
+      ) : (
         <div className="Game">{<Display />}</div>
-      {/* )} */}
+      )}
     </div>
   );
 }
