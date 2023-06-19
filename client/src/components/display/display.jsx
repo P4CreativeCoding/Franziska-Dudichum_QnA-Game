@@ -125,11 +125,11 @@ function Display() {
                           {!isQuestionSelected &&
             filteredQuestions.map((question) => (
               <button
-                key={question.id}
-                className={selectedQuestionID === question.id ? 'clicked' : 'hidden'}
-                type="button"
-                onClick={() => handleQuestion(question.id)}
-              >
+              key={question.id}
+              className={`question-button ${selectedQuestionID === question.id ? 'clicked' : 'hidden'}`}
+              type="button"
+              onClick={() => handleQuestion(question.id)}
+            >
                 {question.text}
               </button>
             ))}
@@ -151,7 +151,7 @@ function Display() {
             filteredAnswer.map((answer) => (
               <button
                 key={answer.id}
-                className={selectedAnswerID === answer.id ? 'clicked' : 'hidden'}
+                className={`answer-button ${selectedAnswerID === answer.id ? 'clicked' : 'hidden'}`}
                 type="button"
                 onClick={() => handleAnswer(answer.id)}
               >

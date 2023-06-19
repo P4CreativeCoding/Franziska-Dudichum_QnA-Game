@@ -14,3 +14,30 @@ header {
   transform: scale(1.2);
   /* Add any other styles for the clicked state */
 }
+
+.question-button {
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: background-color 0.3s;
+}
+
+.question-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.answer-button {
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: background-color 0.3s;
+}
+
+.answer-button:hover {
+  background-color: red;
+  color: white;
+}
+
