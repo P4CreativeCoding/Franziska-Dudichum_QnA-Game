@@ -79,19 +79,33 @@ function Display() {
     getRandomQuestion();
   }, []);
     // Randomly shuffle the data array
-    const shuffledData = [...answerData].sort(() => Math.random() - 0.5);
-    const filteredData = shuffledData.slice(0, 4);
+    const shuffledAnswer = [...answerData].sort(() => Math.random() - 0.5);
+    const filteredAnswer = shuffledAnswer.slice(0, 4);
     
-    const [selectedButtonId, setSelectedButtonId] = useState(null);
+    const [selectedAnswerID, setSelectedAnswerID] = useState(null);
     const [isAnswerSelected, setIsAnswerSelected] = useState(false);
     
-    const handleClick = (answerId) => {
-      setSelectedButtonId(answerId);
+    const handleAnswer = (answerId) => {
+      setSelectedAnswerID(answerId);
       setIsAnswerSelected(true);
       // Perform additional logic or actions here
     };
+
+    const selectedAnswer = answerData.find((answer) => answer.id === selectedAnswerID);
+
+    const shuffledQuestions = [...questionData].sort(() => Math.random() - 0.5);
+    const filteredQuestions = shuffledQuestions.slice(0, 4);
     
-    const selectedAnswer = answerData.find((answer) => answer.id === selectedButtonId);
+    const [selectedQuestionID, setselectedQuestionID] = useState(null);
+    const [isQuestionSelected, setisQuestionSelected] = useState(false);
+    
+    const handleQuestion = (questionId) => {
+      setselectedQuestionID(questionId);
+      setisQuestionSelected(true);
+      // Perform additional logic or actions here
+    };
+    
+    const selectedQuestion = questionData.find((question) => question.id === selectedQuestionID);
     
     return (
       <div>
@@ -108,8 +122,23 @@ function Display() {
           <div>
             {randomQuestion ? (
               <div>
-                {/* <p>Question ID: {randomQuestion.id}</p> */}
-                <p>Question: {randomQuestion.text}</p>
+                          {!isQuestionSelected &&
+            filteredQuestions.map((question) => (
+              <button
+                key={question.id}
+                className={selectedQuestionID === question.id ? 'clicked' : 'hidden'}
+                type="button"
+                onClick={() => handleQuestion(question.id)}
+              >
+                {question.text}
+              </button>
+            ))}
+                      {isQuestionSelected && selectedQuestion && (
+            <div>
+              <h2>Selected Answer:</h2>
+              <p>{selectedQuestion.text}</p>
+            </div>
+          )}
               </div>
             ) : (
               <p>Loading...</p>
@@ -119,12 +148,12 @@ function Display() {
           <h3>Your answers:</h3>
     
           {!isAnswerSelected &&
-            filteredData.map((answer) => (
+            filteredAnswer.map((answer) => (
               <button
                 key={answer.id}
-                className={selectedButtonId === answer.id ? 'clicked' : 'hidden'}
+                className={selectedAnswerID === answer.id ? 'clicked' : 'hidden'}
                 type="button"
-                onClick={() => handleClick(answer.id)}
+                onClick={() => handleAnswer(answer.id)}
               >
                 {answer.text}
               </button>
@@ -138,13 +167,7 @@ function Display() {
           )}
         </div>
       </div>
-    );
-    
-    
-    
-    
-    
-    
+    ); 
   }    
 
 export default Display;
