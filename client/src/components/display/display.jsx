@@ -5,10 +5,11 @@ import answerData from "../data/answers.json";
 import axios from "axios";
 
 function Display() {
-  const [backendData, setBackendData] = useState([{}]);
-  const [randomQuestion, setRandomQuestion] = useState(null);
-  const [data, setData] = useState(null);
+  // const [backendData, setBackendData] = useState([{}]);
+  // const [data, setData] = useState(null);
 
+
+  const [randomQuestion, setRandomQuestion] = useState(null);
   function getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * questionData.length);
     const randomQuestion = questionData[randomIndex];
@@ -67,13 +68,13 @@ function Display() {
       });
   }
 
-  useEffect(() => {
-    fetch("/api")
-      .then((response) => response.json())
-      .then((data) => {
-        setBackendData(data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("/api")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setBackendData(data);
+  //     });
+  // }, []);
 
   useEffect(() => {
     getRandomQuestion();
@@ -96,17 +97,30 @@ function Display() {
     const shuffledQuestions = [...questionData].sort(() => Math.random() - 0.5);
     const filteredQuestions = shuffledQuestions.slice(0, 4);
     
-    const [selectedQuestionID, setselectedQuestionID] = useState(null);
-    const [isQuestionSelected, setisQuestionSelected] = useState(false);
+    const [selectedQuestionID, setSelectedQuestionID] = useState(null);
+    const [isQuestionSelected, setIsQuestionSelected] = useState(false);
     
     const handleQuestion = (questionId) => {
-      setselectedQuestionID(questionId);
-      setisQuestionSelected(true);
+      setSelectedQuestionID(questionId);
+      setIsQuestionSelected(true);
       // Perform additional logic or actions here
     };
     
     const selectedQuestion = questionData.find((question) => question.id === selectedQuestionID);
     
+    const reloadPage = () => {
+      localStorage.removeItem('selectedAnswerID');
+      localStorage.removeItem('selectedQuestionID');
+      window.location.reload();
+    };
+
+    useEffect(() => {
+      if (selectedAnswerID && selectedQuestionID) {
+        localStorage.setItem('selectedAnswerID', selectedAnswerID);
+        localStorage.setItem('selectedQuestionID', selectedQuestionID);
+      }
+    }, [selectedAnswerID, selectedQuestionID]);
+
     return (
       <div>
         <header>
@@ -118,24 +132,24 @@ function Display() {
           </p>
         </header>
         <div className="qna-section">
-          <h3>Your question:</h3>
+          <h3>Choose your question:</h3>
           <div>
             {randomQuestion ? (
               <div>
-                          {!isQuestionSelected &&
-            filteredQuestions.map((question) => (
-              <button
-              key={question.id}
-              className={`question-button ${selectedQuestionID === question.id ? 'clicked' : 'hidden'}`}
-              type="button"
-              onClick={() => handleQuestion(question.id)}
-            >
+               {!isQuestionSelected &&
+                filteredQuestions.map((question) => (
+                  <button
+                   key={question.id}
+                   className={`question-button ${selectedQuestionID === question.id ? 'clicked' : 'hidden'}`}
+                   type="button"
+                  onClick={() => handleQuestion(question.id)}
+                  >
                 {question.text}
               </button>
             ))}
-                      {isQuestionSelected && selectedQuestion && (
+            {isQuestionSelected && selectedQuestion && (
             <div>
-              <h2>Selected Answer:</h2>
+              <h2>Selected Question:</h2>
               <p>{selectedQuestion.text}</p>
             </div>
           )}
@@ -145,7 +159,8 @@ function Display() {
             )}
           </div>
     
-          <h3>Your answers:</h3>
+
+          <h3>Choose your answer:</h3>
     
           {!isAnswerSelected &&
             filteredAnswer.map((answer) => (
@@ -165,6 +180,11 @@ function Display() {
               <p>{selectedAnswer.text}</p>
             </div>
           )}
+          {selectedQuestionID && selectedAnswerID && (
+        <button className="reload-button" onClick={reloadPage}>
+          Reload Page
+        </button>
+      )}
         </div>
       </div>
     ); 
