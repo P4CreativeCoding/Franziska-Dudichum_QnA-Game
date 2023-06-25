@@ -1,48 +1,29 @@
-import React, { useState } from "react";
-import Display from "./components/display/display.jsx";
+import React from "react";
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link, Switch} from 'react-router-dom';
+import Display from "./components/display/displayQuestion";
+import Login from "./components/Login/Login.jsx";
+import Multiplayer from "./components/multiplayer/multiplayer";
+import DisplayAnswer from "./components/display/displayAnswer";
+import DisplayQuestion from "./components/display/displayQuestion";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    if (password === "12") {
-      setIsLoggedIn(true);
-    } else {
-      alert("Access denied! Incorrect password.");
-    }
+
+
+  const App = () => {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/displayQuestion" element={<Display />} />
+          <Route path="/selectPlayer" element={<Multiplayer />} />
+          <Route path="/displayAnswer" element={<DisplayAnswer />} /> 
+          <Route path="/displayQuestion" element={<DisplayQuestion/>} /> 
+
+
+        </Routes>
+      </Router>
+    );
   };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleLogin();
-    }
-  };
-
-  return (
-    <div>
-      {!isLoggedIn ? (
-        <div className="LoginScreen">
-          <h2>Login</h2>
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            onKeyPress={handleKeyPress}
-          />
-          <button onClick={handleLogin}>Login</button>
-          <p>Pssst... the password is 12...</p>
-        </div>
-      ) : (
-        <div className="Game">{<Display />}</div>
-      )}
-    </div>
-  );
-}
 
 export default App;
