@@ -1,9 +1,14 @@
 const express = require('express');
-const http = require('http');
 const socketIO = require('socket.io');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync('path/to/privateKey.pem'),
+  cert: fs.readFileSync('path/to/certificate.pem')
+}, app);
+
 const io = socketIO(server);
 
 // Store the connected clients
@@ -33,8 +38,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start the server
-const port = 3000; // Change to the desired port numbers
+const port = process.env.PORT || 4000;
 server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Socket.IO server listening on port ${port}`);
 });
