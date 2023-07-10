@@ -9,7 +9,7 @@ function DisplayQuestion() {
   const [selectedQuestionID, setSelectedQuestionID] = useState(null);
   const [isQuestionSelected, setIsQuestionSelected] = useState(false);
   
-  const socket = io("https://qna-game.onrender.com");
+  const socket = io();
 
   function getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * questionData.length);
@@ -42,11 +42,17 @@ function DisplayQuestion() {
     
     
     
-    const handleQuestion = (questionId) => {
+    const handleQuestion = (questionId,questionText) => {
       setSelectedQuestionID(questionId);
       setIsQuestionSelected(true);
       // Perform additional logic or actions here
-      socket.emit('question', questionId);
+      socket.emit('question', questionText);
+    };
+
+    const handleNewQuestion = () => {
+      getRandomQuestion();
+      setSelectedQuestionID(null);
+      setIsQuestionSelected(false);
     };
     
     const selectedQuestion = questionData.find((question) => question.id === selectedQuestionID);
@@ -62,42 +68,45 @@ function DisplayQuestion() {
         <header>
           <h2>Q & A Game</h2>
           <h4>Wassup and welcome to my Q&A game</h4>
-          <p>
-            You will choose between 4
-            different questions.
-          </p>
+          <p>You will choose between 4 different questions.</p>
         </header>
         <div className="qna-section">
           <h3>Choose your question:</h3>
           <div>
             {randomQuestion ? (
               <div>
-               {!isQuestionSelected &&
-                filteredQuestions.map((question) => (
-                  <button
-                   key={question.id}
-                   className={`question-button ${selectedQuestionID === question.id ? 'clicked' : 'hidden'}`}
-                   type="button"
-                  onClick={() => handleQuestion(question.id)}
-                  >
-                {question.text}
-              </button>
-            ))}
-            {isQuestionSelected && selectedQuestion && (
-            <div>
-              <h2>Selected Question:</h2>
-              <p>{selectedQuestion.text}</p>
-            </div>
-          )}
+                {!isQuestionSelected &&
+                  filteredQuestions.map((question) => (
+                    <button
+                      key={question.id}
+                      className={`question-button ${
+                        selectedQuestionID === question.id ? "clicked" : "hidden"
+                      }`}
+                      type="button"
+                      onClick={() => handleQuestion(question.id, question.text)}
+                    >
+                      {question.text}
+                    </button>
+                  ))}
+                {isQuestionSelected && selectedQuestion && (
+                  <div>
+                    <h2>Selected Question:</h2>
+                    <p>{selectedQuestion.text}</p>
+                  </div>
+                )}
+                <br></br>
+                <br></br>
+                <button className="new-question-button" onClick={handleNewQuestion}>
+                  New Question
+                </button>
               </div>
             ) : (
               <p>Loading...</p>
             )}
           </div>
-    
         </div>
       </div>
-    ); 
-  }    
+    );
+  }
 
 export default DisplayQuestion;
