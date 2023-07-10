@@ -9,7 +9,7 @@ function DisplayQuestion() {
   const [selectedQuestionID, setSelectedQuestionID] = useState(null);
   const [isQuestionSelected, setIsQuestionSelected] = useState(false);
   
-  const socket = io('http://localhost:4000');
+  const socket = io();
 
   function getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * questionData.length);

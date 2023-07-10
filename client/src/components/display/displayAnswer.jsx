@@ -13,7 +13,7 @@ function DisplayAnswer() {
     const [isAnswerSelected, setIsAnswerSelected] = useState(false);
     const [question, setQuestion] = useState(null);
 
-    const socket = io('http://localhost:4000');// Connect to the server
+    const socket = io();// Connect to the server
     
     const handleAnswer = (answerId) => {
       setSelectedAnswerID(answerId);
