@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
 });
 
 // Start the server
-const port = 4000; // Change to the desired port numbers
+const port = 3000; // Change to the desired port numbers
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
