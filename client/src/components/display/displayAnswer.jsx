@@ -13,7 +13,7 @@ function DisplayAnswer() {
     const [isAnswerSelected, setIsAnswerSelected] = useState(false);
     const [question, setQuestion] = useState(null);
 
-    const socket = io();// Connect to the server
+    const socket = io("https://qna-game.onrender.com");// Connect to the server
     
     const handleAnswer = (answerId) => {
       setSelectedAnswerID(answerId);
