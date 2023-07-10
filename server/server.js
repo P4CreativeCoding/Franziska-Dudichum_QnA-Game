@@ -1,25 +1,40 @@
-const express = require("express");
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+
 const app = express();
-const port = process.env.PORT || 3001;
+const server = http.createServer(app);
+const io = socketIO(server);
 
-const fs = require("fs");
-const path = require("path");
+// Store the connected clients
+let clients = [];
 
-app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, "../client/public/index.html");
-  fs.readFile(filePath, "utf-8", (err, htmlContent) => {
-    if (err) {
-      console.error("Error reading HTML file:", err);
-      res.status(500).send("Internal Server Error");
-    } else {
-      res.type("html").send(htmlContent);
-    }
+// Handle a new client connection
+io.on('connection', (socket) => {
+  console.log('New client connected:', socket.id);
+  
+  // Add the client to the list of connected clients
+  clients.push(socket);
+  
+  // Handle client disconnection
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+    
+    // Remove the client from the list of connected clients
+    clients = clients.filter(client => client.id !== socket.id);
+  });
+  
+  // Handle receiving a question from the client
+  socket.on('question', (question) => {
+    console.log('Question received from client:', socket.id);
+    
+    // Broadcast the question to all other connected clients
+    socket.broadcast.emit('question', question);
   });
 });
 
-const server = app.listen(port, () =>
-  console.log(`Example app listening on port ${port}!`)
-);
-
-server.keepAliveTimeout = 120 * 1000;
-server.headersTimeout = 120 * 1000;
+// Start the server
+const port = 3000; // Change to the desired port numbers
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});

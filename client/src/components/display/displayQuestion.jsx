@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./display.css";
 import questionData from "../data/questions.json";
-import answerData from "../data/answers.json";
+import io from "socket.io-client";
 
 function DisplayQuestion() {
 
   const [randomQuestion, setRandomQuestion] = useState(null);
+  const [selectedQuestionID, setSelectedQuestionID] = useState(null);
+  const [isQuestionSelected, setIsQuestionSelected] = useState(false);
+  
+  const socket = io('http://localhost:4000');
+
   function getRandomQuestion() {
     const randomIndex = Math.floor(Math.random() * questionData.length);
     const randomQuestion = questionData[randomIndex];
@@ -16,17 +21,32 @@ function DisplayQuestion() {
     getRandomQuestion();
   }, []);
     // Randomly shuffle the data array
-    
+  useEffect(() => {
+    getRandomQuestion();
+  }, []);
+
+  useEffect(() => {
+    socket.on('question', (question) => {
+      setRandomQuestion(question);
+      setIsQuestionSelected(false);
+      setSelectedQuestionID(null);
+    });
+  
+    return () => {
+      socket.off('question');
+    };
+  }, [socket]);
+  
     const shuffledQuestions = [...questionData].sort(() => Math.random() - 0.5);
     const filteredQuestions = shuffledQuestions.slice(0, 4);
     
-    const [selectedQuestionID, setSelectedQuestionID] = useState(null);
-    const [isQuestionSelected, setIsQuestionSelected] = useState(false);
+    
     
     const handleQuestion = (questionId) => {
       setSelectedQuestionID(questionId);
       setIsQuestionSelected(true);
       // Perform additional logic or actions here
+      socket.emit('question', questionId);
     };
     
     const selectedQuestion = questionData.find((question) => question.id === selectedQuestionID);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./Login.css";
-import Multiplayer from '../multiplayer/multiplayer';
+import Multiplayer from '../display/multiplayer';
 
  
 const   Login = () => {

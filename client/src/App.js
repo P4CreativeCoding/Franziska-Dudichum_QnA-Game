@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link, Switch} from 'react-router-dom';
 import Display from "./components/display/displayQuestion";
 import Login from "./components/Login/Login.jsx";
-import Multiplayer from "./components/multiplayer/multiplayer";
+import Multiplayer from "./components/display/multiplayer";
 import DisplayAnswer from "./components/display/displayAnswer";
 import DisplayQuestion from "./components/display/displayQuestion";
 
@@ -17,8 +17,9 @@ import DisplayQuestion from "./components/display/displayQuestion";
           <Route path="/" element={<Login />} />
           <Route path="/displayQuestion" element={<Display />} />
           <Route path="/selectPlayer" element={<Multiplayer />} />
-          <Route path="/displayAnswer" element={<DisplayAnswer />} /> 
-          <Route path="/displayQuestion" element={<DisplayQuestion/>} /> 
+          <Route path="/player1" element={<DisplayQuestion/>} /> 
+          <Route path="/player2" element={<DisplayAnswer />} /> 
+          
 
 
         </Routes>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./display.css";
 import answerData from "../data/answers.json";
+import io from "socket.io-client";
 
 function DisplayAnswer() {
 
@@ -10,11 +11,15 @@ function DisplayAnswer() {
     
     const [selectedAnswerID, setSelectedAnswerID] = useState(null);
     const [isAnswerSelected, setIsAnswerSelected] = useState(false);
+    const [question, setQuestion] = useState(null);
+
+    const socket = io('http://localhost:4000');// Connect to the server
     
     const handleAnswer = (answerId) => {
       setSelectedAnswerID(answerId);
       setIsAnswerSelected(true);
       // Perform additional logic or actions here
+      socket.emit('answer', answerId);
     };
 
     const selectedAnswer = answerData.find((answer) => answer.id === selectedAnswerID);
@@ -25,6 +30,23 @@ function DisplayAnswer() {
       }
     }, [selectedAnswerID]);
 
+    useEffect(() => {
+      socket.on('question', (question) => {
+        setQuestion(question);
+        setIsAnswerSelected(false);
+        setSelectedAnswerID(null);
+      });
+  
+      return () => {
+        socket.off('question');
+      };
+    }, [socket]);
+
+    //fetch get answer
+    //conditional renders
+
+    //=! waiting for question/answer
+
     return (
       <div>
         <header>
@@ -34,6 +56,7 @@ function DisplayAnswer() {
             You will get a question from player1, where you can choose between 4
             different answers, which are chosen from you.
           </p>
+          {question && <p>Question from Player 1: {question}</p>}
         </header>
         <div className="qna-section">
 
